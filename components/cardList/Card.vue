@@ -1,35 +1,87 @@
 <template>
   <div class="card">
-    <div class="background-container" :stlye="{BackgroundImage: imgURL}" >
-
+    <div
+      class="card-background"
+      :style="{ backgroundImage: 'url(' + imgURL +  ')' }"
+    ></div>
+    <div class="card-container">
+      <div class="card-content">
+        <p class="breed">{{breed}}</p>
+        <p class="origin"></p>
+        <a >Wikipedia</a>
+      </div>
     </div>
-      
-      {{name}}
-      {{imgURL}}
-      {{wikiLink}}
   </div>
 </template>
 
 <script>
 export default {
-    name: "Card",
-    props: ["name","imgURL", "wikiLink", "origin"],
-    computed: {
-
+  name: "Card",
+  props: ["data"],
+  computed: {
+    hasInfo() {
+      if(this.data.breeds.length > 0) {
+        return true
+      } else {
+        return false
+      }
     },
-    methods: {
+    breed() {
+      if(this.hasInfo) {
+          return this.data.breeds[0].name
+      } else {
+        return "no info"
+      }
+      
     },
-    mounted() {
-    }
-
-}
+    imgURL() {
+      if(this.data.hasOwnProperty("url")) {
+          return this.data.url
+      } else {
+        return '';
+      }
+      
+    },
+  },
+  methods: {},
+  mounted() {
+  }
+};
 </script>
 
 <style scoped lang="scss">
 .card {
-  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  height: 290px;
+  .card-background {
+    height: 290px;
+    background-size: cover;
+    background-position: center;
+  }
+  .card-container {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    display: flex;
+    align-items: flex-end;
+    .card-content {
+      display: flex;
+      padding: 18px;
+      align-items: center;
+      flex-direction: column;
+      background: #00000075;
+      width: 100%;
+      p, a {
+        color: white;
+        text-decoration: none;
+        margin: 10px 0;
+      }
+    }
+  }
 }
-.background-container {
-  height: 100px;
-}
+
+
 </style>
