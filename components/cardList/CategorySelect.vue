@@ -6,6 +6,7 @@
     <option value="3">Gifs</option>
     <option value="4">Glasses</option>
     <option value="5">Boxes</option>
+    <option value="beng">Bengal</option>
   </select>
 </template>
 

@@ -19,7 +19,7 @@ export default {
   props: ["data"],
   data() {
     return {
-      lazy: true,
+      lazy: true
     };
   },
   computed: {
@@ -72,10 +72,10 @@ export default {
       const options = {};
       const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
-          if(entry.isIntersecting) {
+          if (entry.isIntersecting) {
             this.lazy = false;
           }
-        })
+        });
       }, options);
       observer.observe(img);
     }
@@ -114,7 +114,7 @@ export default {
     .card-content {
       display: flex;
       padding: 18px;
-      align-items: center;
+      align-items: flex-start;
       flex-direction: column;
       background: linear-gradient(
         0deg,
@@ -127,7 +127,14 @@ export default {
       a {
         color: white;
         text-decoration: none;
-        margin: 10px 0;
+        background: #0000009c;
+        padding: 6px 16px;
+        margin-bottom: 5px;
+        border-radius: 9px;
+        font-size: 13px;
+      }
+      .wiki {
+        background: rgb(38 113 193 / 57%);
       }
     }
   }

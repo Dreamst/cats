@@ -89,8 +89,11 @@ export default {
       this.fetchApi(this.itemPerPage, this.currentPage, this.category);
     },
     categoryUpdate(value) {
+      
       let categoryQuery;
-      if (value != '') {
+      if(value.length > 2) {
+        categoryQuery = `&breed_ids=${value}`
+      } else if (value != '') {
         categoryQuery = `&category_ids=${value}`
         this.category = categoryQuery;
       } else {
