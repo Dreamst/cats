@@ -34,14 +34,3 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
-
-Main components:
-```mermaid
-
-graph LR
-
-A[CardList] --> B(Pagination)
-
-A --> C(CategorySelect)
-
-A -- Api data --> D(Card / v-for loop)
