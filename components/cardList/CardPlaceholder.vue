@@ -30,14 +30,15 @@ export default {
     animation-iteration-count:infinite;
     animation-direction: alternate;
     animation-duration: 1s;
-    @keyframes colorSwitch {
-      0% {
-        background-color: #e6e6e6;
-      }
-      100% {
-        background-color: #cac8de;
-      }
-    }
+    background-color: #e6e6e6;
+    // @keyframes colorSwitch {
+    //   0% {
+    //     background-color: #e6e6e6;
+    //   }
+    //   100% {
+    //     background-color: #cac8de;
+    //   }
+    // }
   }
   .card-container {
     height: 100%;

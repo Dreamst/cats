@@ -1,15 +1,21 @@
 <template>
   <div class="CardList">
     <h1 class="title">Cat List</h1>
+    <transition name="fade">
     <pagination
-      v-if="catData.length > 0"
+      v-if="dataExists"
       v-on:update:currentPage="updatePage"
       :totalPage="totalPage"
       :currentPage.sync="currentPage"
     ></pagination>
+    </transition>
+    <category-select v-if="dataExists" @categoryUpdated="categoryUpdate($event)"></category-select>
     <div v-else class="empty"></div>
-
-    <div class="cards-container" v-if="catData.length > 0">
+    
+    
+    
+    
+    <div class="cards-container" v-if="dataExists">
       <card v-for="item in catData" :data="item" :key="item.id"> </card>
     </div>
     <div class="cards-container" v-else>
@@ -25,22 +31,30 @@
 import Pagination from "@/components/cardList/Pagination";
 import Card from "@/components/cardList/Card";
 import CardPlaceholder from "@/components/cardList/CardPlaceholder";
+import CategorySelect from "@/components/cardList/CategorySelect";
 
 export default {
   name: "CardList",
   components: {
     Pagination,
-    Card
+    Card,
+    CategorySelect,
   },
   data() {
     return {
       catData: {},
       totalItems: undefined,
       itemPerPage: 12,
-      currentPage: 1
+      currentPage: 1,
+      category: '',
+
     };
   },
+  // 
   computed: {
+    dataExists() {
+      return this.catData.length > 0;
+    },
     totalPage() {
       if (Number.isInteger(this.totalItems / this.itemPerPage)) {
         return this.totalItems / this.itemPerPage - 1;
@@ -50,10 +64,15 @@ export default {
     }
   },
   methods: {
-    async fetchApi(pageLimit, page) {
+    async fetchApi(pageLimit, page, category ='') {
       let res = await fetch(
-        `https://api.thecatapi.com/v1/images/search?limit=${pageLimit}&page=${page - 1}&order=Desc&category_ids=1`,
-        
+        `https://api.thecatapi.com/v1/images/search?limit=${pageLimit}&page=${page - 1}&order=Desc${category}`,
+        {
+          method: "GET",
+          headers: {
+            "x-api-key": "0942a7cb-ed6c-42b4-a645-d6af589f2119"
+          }
+        }
       );
 
       const catData = await res.json();
@@ -67,7 +86,17 @@ export default {
     },
     updatePage(page) {
       this.currentPage = page;
-      this.fetchApi(this.itemPerPage, this.currentPage);
+      this.fetchApi(this.itemPerPage, this.currentPage, this.category);
+    },
+    categoryUpdate(value) {
+      let categoryQuery;
+      if (value != '') {
+        categoryQuery = `&category_ids=${value}`
+        this.category = categoryQuery;
+      } else {
+        categoryQuery = '';
+      }
+      this.fetchApi(this.itemPerPage, this.currentPage, categoryQuery);
     }
   },
   mounted() {
@@ -86,7 +115,7 @@ export default {
   text-align: center;
 }
 .empty {
-  height: 30px;
+  height: 87px;
 }
 .CardList {
   display: flex;
@@ -116,5 +145,14 @@ export default {
   .cards-container {
     grid-template-columns: repeat(1, 200px);
   }
+}
+
+// transition 
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
