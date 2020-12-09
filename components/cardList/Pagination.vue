@@ -1,7 +1,7 @@
 <template>
   <div class="Pagination">
     <div class="page-nav">
-      <button @click="pageCounter > 0 ? pageCounter-- : false">Previous</button>
+      <button class="previous" @click="pageCounter > 0 ? pageCounter-- : false">&lt;&lt;</button>
       <button
         @click="updateEvent(n + pageCounter)"
         v-for="n in buttonsToDisplay"
@@ -10,7 +10,7 @@
       >
         {{ n + pageCounter }}
       </button>
-      <button v-on:click="counterNext()">Next</button>
+      <button class="next" v-on:click="counterNext()">&gt;&gt;</button>
     </div>
   </div>
 </template>
@@ -33,10 +33,7 @@ export default {
     counterNext() {
       if (this.pageCounter < this.totalPage - 9) {
         this.pageCounter++;
-        console.log(this.buttonNumber);
-      } else {
-        console.log(this.buttonNumber);
-      }
+      } 
     }
   },
   computed: {
@@ -57,5 +54,16 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+button {
+    height: 30px;
+    width: 30px;
+    border: 1px solid white;
+    background: white;
+    cursor: pointer;
+    &.previous, &.next {
+        width: auto;
+        padding: 0 20px
+    }
+}
 </style>

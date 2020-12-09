@@ -1,7 +1,5 @@
 <template>
-  <div class="container">
     <card-list> </card-list>
-  </div>
 </template>
 
 <script>
@@ -26,8 +24,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .container {
-    max-width: 1400px;
-    margin: auto;
-  }
 </style>

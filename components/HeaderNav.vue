@@ -22,7 +22,7 @@ export default {
   &-container {
     max-width: 1400px;
     margin: auto;
-    background: #98a5bd;
+    background-image: url(~assets/textures/topography.svg);
     height: 70px;
     display: flex;
     justify-content: center;
@@ -37,11 +37,14 @@ export default {
     background: white;
     padding: 8px 30px;
     border-radius: 10px;
+    border: 1px solid #888888;
+    cursor: pointer;
     &:not(:first-child) {
       margin-left: 30px;
     }
     a {
       text-decoration: none;
+    
       &:visited {
         color: black;
       }

@@ -6,9 +6,9 @@
     ></div>
     <div class="card-container">
       <div class="card-content">
-        <p class="breed">{{breed}}</p>
-        <p class="origin"></p>
-        <a >Wikipedia</a>
+        <p class="breed">Breed: {{breed}}</p>
+        <p class="origin">Origin: {{origin}}</p>
+        <a v-if="wikiUrl" target="_blank" :href="wikiUrl" class="wiki">Wikipedia</a>
       </div>
     </div>
   </div>
@@ -24,13 +24,14 @@ export default {
         return true
       } else {
         return false
+        
       }
     },
     breed() {
       if(this.hasInfo) {
           return this.data.breeds[0].name
       } else {
-        return "no info"
+        return "No breed info"
       }
       
     },
@@ -38,12 +39,25 @@ export default {
       if(this.data.hasOwnProperty("url")) {
           return this.data.url
       } else {
-        return '';
+        return "./no_image.jpg";
       }
       
     },
+    origin() {
+      if(this.hasInfo ) {
+        return this.data.breeds[0].origin
+      } else {
+        return "No origin info"
+      }
+    },
+    wikiUrl() {
+      if(this.hasInfo ) {
+        return this.data.breeds[0].wikipedia_url
+      } else {
+        return false
+      }
+    },
   },
-  methods: {},
   mounted() {
   }
 };
@@ -51,7 +65,7 @@ export default {
 
 <style scoped lang="scss">
 .card {
-  border-radius: 16px;
+  border-radius: 6px;
   overflow: hidden;
   position: relative;
   height: 290px;
@@ -72,7 +86,7 @@ export default {
       padding: 18px;
       align-items: center;
       flex-direction: column;
-      background: #00000075;
+      background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5354516806722689) 87%, rgba(255,255,255,0) 100%);
       width: 100%;
       p, a {
         color: white;

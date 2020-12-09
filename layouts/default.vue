@@ -1,7 +1,10 @@
 <template>
   <div>
     <header-nav></header-nav>
-    <Nuxt />
+    <div class="default-container">
+      <Nuxt />
+    </div>
+    
   </div>
 </template>
 <script>
@@ -13,6 +16,12 @@ export default {
 }
 </script>
 <style>
+.default-container {
+  max-width: 1400px;
+    margin: auto;
+    background-color: #ffffff;
+    background-image: url(~assets/textures/texture.svg)
+}
 html {
   font-family:
     'Source Sans Pro',
