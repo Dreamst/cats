@@ -33,6 +33,7 @@ export default {
     background: white;
     border: 1px solid grey;
     border-radius: 4px;
+    text-align: center;
   }
 }
 </style>

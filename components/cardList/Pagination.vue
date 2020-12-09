@@ -1,16 +1,19 @@
 <template>
   <div class="Pagination">
     <div class="page-nav">
-      <button class="previous" @click="pageCounter > 0 ? pageCounter-- : false">&lt;&lt;</button>
+      <button class="previous-nav" @click="pageCounter > 0 ? pageCounter-- : false">&lt;&lt;</button>
+      <button class="previous" @click="selectedPage > 1 ? updateEvent(selectedPage - 1): false">Previous</button>
       <button
         @click="updateEvent(n + pageCounter)"
+        :class="{highlight: n + pageCounter == selectedPage}"
         v-for="n in buttonsToDisplay"
         :key="n"
         class="pageButton"
       >
         {{ n + pageCounter }}
       </button>
-      <button class="next" v-on:click="counterNext()">&gt;&gt;</button>
+      <button class="next" @click="selectedPage < totalPage ? updateEvent(selectedPage + 1): false">Next</button>
+      <button class="next-nav" v-on:click="counterNext()">&gt;&gt;</button>
     </div>
   </div>
 </template>
@@ -55,15 +58,28 @@ export default {
 </script>
 
 <style lang="scss">
-button {
+.page-nav {
+  display:flex;
+  flex-wrap: wrap;
+  button {
     height: 30px;
     width: 30px;
     border: 1px solid white;
     background: white;
     cursor: pointer;
-    &.previous, &.next {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    &:focus {
+      outline: none;
+    }
+    &.highlight {
+      border: 2px solid grey;
+    }
+    &.next, &.previous, &.previous-nav, &.next-nav {
         width: auto;
         padding: 0 20px
     }
 }
+}
+
 </style>

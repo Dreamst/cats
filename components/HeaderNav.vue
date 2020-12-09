@@ -22,7 +22,6 @@ export default {
   &-container {
     max-width: 1400px;
     margin: auto;
-    background-image: url(~assets/textures/topography.svg);
     height: 70px;
     display: flex;
     justify-content: center;
@@ -35,7 +34,7 @@ export default {
   &-item {
     display: inline-block;
     background: white;
-    padding: 8px 30px;
+
     border-radius: 10px;
     border: 1px solid #888888;
     cursor: pointer;
@@ -43,10 +42,34 @@ export default {
       margin-left: 30px;
     }
     a {
+      padding: 8px 30px;
+      display: block;
       text-decoration: none;
-    
+
       &:visited {
         color: black;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .nav {
+    &-container {
+      height: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 13px;
+    }
+    &-list {
+      display: flex;
+      flex-direction: column;
+    }
+    &-item {
+      margin-bottom: 13px;
+      &:last-child {
+        margin-left: 0;
       }
     }
   }
