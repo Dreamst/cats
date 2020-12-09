@@ -7,6 +7,7 @@
       v-on:update:currentPage="updatePage"
       :totalPage="totalPage"
       :currentPage.sync="currentPage"
+      ref="pagination"
     ></pagination>
     </transition>
     <category-select v-if="dataExists" @categoryUpdated="categoryUpdate($event)"></category-select>
@@ -85,6 +86,7 @@ export default {
       this.fetchApi(this.itemPerPage, this.currentPage, this.category);
     },
     categoryUpdate(value) {
+      this.$refs.pagination.pageCounter = 0;
       this.currentPage = 1;
       let categoryQuery;
       if(value.length > 2) {
