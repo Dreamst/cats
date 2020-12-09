@@ -53,12 +53,7 @@ export default {
     async fetchApi(pageLimit, page) {
       let res = await fetch(
         `https://api.thecatapi.com/v1/images/search?limit=${pageLimit}&page=${page - 1}&order=Desc&category_ids=1`,
-        {
-          method: "GET",
-          headers: {
-            "x-api-key": "0942a7cb-ed6c-42b4-a645-d6af589f2119"
-          }
-        }
+        
       );
 
       const catData = await res.json();
