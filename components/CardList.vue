@@ -11,10 +11,6 @@
     </transition>
     <category-select v-if="dataExists" @categoryUpdated="categoryUpdate($event)"></category-select>
     <div v-else class="empty"></div>
-    
-    
-    
-    
     <div class="cards-container" v-if="dataExists">
       <card v-for="item in catData" :data="item" :key="item.id"> </card>
     </div>
@@ -89,7 +85,7 @@ export default {
       this.fetchApi(this.itemPerPage, this.currentPage, this.category);
     },
     categoryUpdate(value) {
-      
+      this.currentPage = 1;
       let categoryQuery;
       if(value.length > 2) {
         categoryQuery = `&breed_ids=${value}`

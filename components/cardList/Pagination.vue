@@ -25,7 +25,6 @@ export default {
   data() {
     return {
       pageCounter: 0,
-      selectedPage: this.currentPage
     };
   },
   methods: {
@@ -40,6 +39,9 @@ export default {
     }
   },
   computed: {
+    selectedPage() {
+      return this.currentPage;
+    },
     buttonsToDisplay() {
       if (Number.isInteger(this.totalPage)) {
         if (this.totalPage < 10) {
