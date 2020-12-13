@@ -7,19 +7,25 @@
       v-on:update:currentPage="updatePage"
       :totalPage="totalPage"
       :currentPage.sync="currentPage"
+      ref="pagination"
     ></pagination>
     </transition>
     <category-select v-if="dataExists" @categoryUpdated="categoryUpdate($event)"></category-select>
     <div v-else class="empty"></div>
-    <div class="cards-container" v-if="dataExists">
-      <card v-for="item in catData" :data="item" :key="item.id"> </card>
-    </div>
-    <div class="cards-container" v-else>
+    <div v-if="$fetchState.pending">
+      <p class="texte-placeholder">Récupération des chats</p>
+      <div class="cards-container">
       <card-placeholder
         v-for="item in itemPerPage"
         :key="item"
       ></card-placeholder>
     </div>
+    </div>
+    
+    <div class="cards-container" v-else-if="dataExists"> 
+      <card v-for="item in catData" :data="item" :key="item.id"></card>
+    </div>
+    
   </div>
 </template>
 
@@ -46,6 +52,29 @@ export default {
 
     };
   },
+  async fetch() {
+    let pageLimit = this.itemPerPage;
+    let page = this.currentPage;
+    let category = this.category;
+    let res = await fetch(
+        `https://api.thecatapi.com/v1/images/search?limit=${pageLimit}&page=${page - 1}&order=Desc${category}`,
+        {
+          method: "GET",
+          headers: {
+            "x-api-key": "0942a7cb-ed6c-42b4-a645-d6af589f2119"
+          }
+        }
+      );
+      console.log("fetching");
+      const catData = await res.json();
+      //Get
+      for (let entry of res.headers.entries()) {
+        if (entry[0] == "pagination-count") {
+          this.totalItems = parseInt(entry[1]);
+        }
+      }
+      this.catData = catData;
+  },
   // 
   computed: {
     dataExists() {
@@ -60,46 +89,29 @@ export default {
     }
   },
   methods: {
-    async fetchApi(pageLimit, page, category ='') {
-      let res = await fetch(
-        `https://api.thecatapi.com/v1/images/search?limit=${pageLimit}&page=${page - 1}&order=Desc${category}`,
-        {
-          method: "GET",
-          headers: {
-            "x-api-key": "0942a7cb-ed6c-42b4-a645-d6af589f2119"
-          }
-        }
-      );
-
-      const catData = await res.json();
-      //Get
-      for (let entry of res.headers.entries()) {
-        if (entry[0] == "pagination-count") {
-          this.totalItems = parseInt(entry[1]);
-        }
-      }
-      this.catData = catData;
-    },
+    
     updatePage(page) {
       this.currentPage = page;
-      this.fetchApi(this.itemPerPage, this.currentPage, this.category);
+      this.$fetch();
     },
     categoryUpdate(value) {
+      this.$refs.pagination.pageCounter = 0;
       this.currentPage = 1;
       let categoryQuery;
       if(value.length > 2) {
         categoryQuery = `&breed_ids=${value}`
+        this.category = categoryQuery;
       } else if (value != '') {
         categoryQuery = `&category_ids=${value}`
         this.category = categoryQuery;
       } else {
         categoryQuery = '';
+        this.category = categoryQuery;
       }
-      this.fetchApi(this.itemPerPage, this.currentPage, categoryQuery);
+      this.$fetch();
     }
   },
   mounted() {
-    this.fetchApi(this.itemPerPage, this.currentPage);
   }
 };
 </script>
